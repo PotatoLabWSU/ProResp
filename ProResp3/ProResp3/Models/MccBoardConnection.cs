@@ -24,7 +24,6 @@ namespace ProResp3.Models
         public void CheckAllPorts()
         {
             int numPorts = 24;
-
             for (int i = 0; i < numPorts; i++)
             {
 

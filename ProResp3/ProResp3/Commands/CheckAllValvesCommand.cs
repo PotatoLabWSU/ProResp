@@ -32,6 +32,7 @@ namespace ProResp3.Commands
             {
                 mccBoard = new MccBoardConnection();
                 mccBoard.CheckAllPorts();
+                mccBoard = null;
             }
             catch
             {

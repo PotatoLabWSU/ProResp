@@ -29,6 +29,7 @@ namespace ProResp3.Commands
             {
                 ExperimentViewModel experimentViewModel = (ExperimentViewModel)this.viewModel.SelectedViewModel;
                 experimentViewModel.experiment?.Stop();
+                experimentViewModel.experiment = null;
                 this.viewModel.SelectedViewModel = new SetupViewModel();
                 this.viewModel.ExperimentRunning = false;
             }

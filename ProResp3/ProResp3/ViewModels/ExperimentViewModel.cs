@@ -12,7 +12,7 @@ namespace ProResp3.ViewModels
 
     public class ExperimentViewModel : BaseViewModel
     {
-        public Experiment experiment;
+        public Experiment? experiment;
         string _activeValveNum;
         string _currentCO2;
         string _currentH2O;
@@ -25,7 +25,7 @@ namespace ProResp3.ViewModels
         string _previousFlow;
         string _timeUntillValveSwitch;
 
-        public string ActiveValveNum
+        public string? ActiveValveNum
         {
             get { return  _activeValveNum; }
             set 
@@ -34,7 +34,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(ActiveValveNum));
             }
         }
-        public string CurrentCO2
+        public string? CurrentCO2
         {
             get { return _currentCO2; }
             set
@@ -43,7 +43,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(CurrentCO2));
             }
         }
-        public string CurrentH2O
+        public string? CurrentH2O
         {
             get { return _currentH2O; }
             set
@@ -52,7 +52,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(CurrentH2O));
             }
         }
-        public string CurrentTemperature
+        public string? CurrentTemperature
         {
             get { return _currentTemperature; }
             set
@@ -61,7 +61,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(CurrentTemperature));
             }
         }
-        public string CurrentFlow
+        public string? CurrentFlow
         {
             get { return _currentFlow; }
             set
@@ -70,7 +70,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(CurrentFlow));
             }
         }
-        public string PreviousValveNum
+        public string? PreviousValveNum
         {
             get { return _previousValveNum; }
             set
@@ -79,7 +79,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousValveNum));
             }
         }
-        public string PreviousCO2
+        public string? PreviousCO2
         {
             get { return _previousCO2; }
             set
@@ -88,7 +88,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousCO2));
             }
         }
-        public string PreviousH2O
+        public string? PreviousH2O
         {
             get { return _previousH2O; }
             set
@@ -97,7 +97,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousH2O));
             }
         }
-        public string PreviousTemperature
+        public string? PreviousTemperature
         {
             get { return _previousTemperature; }
             set
@@ -106,7 +106,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousTemperature));
             }
         }
-        public string PreviousFlow
+        public string? PreviousFlow
         {
             get { return _previousFlow; }
             set
@@ -115,7 +115,7 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousFlow));
             }
         }
-        public string TimeUntilValveSwitch
+        public string? TimeUntilValveSwitch
         {
             get { return _timeUntillValveSwitch; }
             set
@@ -191,12 +191,12 @@ namespace ProResp3.ViewModels
             }
             if (e.PropertyName == "ActiveValveData")
             {
-                ActiveValveNum = (this.experiment.ActiveValve.ValveNum + 1).ToString();
-                CurrentCO2 = this.experiment.ActiveValve.CO2.ToString() + " " + this.experiment.ActiveValve.CO2Units;
-                CurrentH2O = this.experiment.ActiveValve.H2O.ToString() + " " + this.experiment.ActiveValve.H2OUnits;
-                CurrentTemperature = this.experiment.ActiveValve.Temperature.ToString() + " " + this.experiment.ActiveValve.TemperatureUnits;
-                CurrentFlow = this.experiment.ActiveValve.Flow.ToString() + " " + this.experiment.ActiveValve.FlowUnits;
-                TimeUntilValveSwitch = this.experiment.TimeUntilSwitch.ToString();
+                ActiveValveNum = (this.experiment?.ActiveValve.ValveNum + 1).ToString();     //Bug: after stop command 
+                CurrentCO2 = this.experiment?.ActiveValve.CO2.ToString() + " " + this.experiment?.ActiveValve.CO2Units;
+                CurrentH2O = this.experiment?.ActiveValve.H2O.ToString() + " " + this.experiment?.ActiveValve.H2OUnits;
+                CurrentTemperature = this.experiment?.ActiveValve.Temperature.ToString() + " " + this.experiment?.ActiveValve.TemperatureUnits;
+                CurrentFlow = this.experiment?.ActiveValve.Flow.ToString() + " " + this.experiment?.ActiveValve.FlowUnits;
+                TimeUntilValveSwitch = this.experiment?.TimeUntilSwitch.ToString();
             }
         }
     }

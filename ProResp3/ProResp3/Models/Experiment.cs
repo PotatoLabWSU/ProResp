@@ -48,7 +48,7 @@ namespace ProResp3.Models
             //Activate first valve
             this._board.TurnOffAllPorts();
             this._activeValve = new Valve(this._activeValveNums.First(), this._valveWeights.First());
-            this._board.open(this._activeValveNums[this._activeValveIndex]);
+
 
             //Add units to ActiveValve
             string[] LI7000Units = _LI7000.DataHeader.Split('\t');
@@ -132,6 +132,7 @@ namespace ProResp3.Models
             this._board.TurnOffAllPorts();
             this.pollDataTimer?.Start();
             this.valveSwitchTimer?.Start();
+            this._board.open(this._activeValveNums[this._activeValveIndex]);
             this.startDate = DateTime.Now;
             this.PollData(this, new EventArgs());
         }
@@ -148,6 +149,8 @@ namespace ProResp3.Models
             else
             {
                 this._activeValveIndex = 0;
+                this._board = null;                         // If board runs for multiple cycles it starts turning multiple ports on.
+                this._board = new MccBoardConnection();     // Creating a new board each cycle is an attempt to fix it.
             }
 
             this._board.open(this._activeValveNums[this._activeValveIndex]);
@@ -199,6 +202,8 @@ namespace ProResp3.Models
 
         public void Stop()
         {
+            pollDataTimer.Stop();
+            valveSwitchTimer.Stop();
             _board.TurnOffAllPorts();
             //_LI7000.CloseConnection();  Breaks if poll data event is called after. Seems to close by itself fine.
         }
