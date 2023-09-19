@@ -1,6 +1,7 @@
 ﻿using FlowMeterConsoleApp;
 using System.Timers;
 
+
 class Program
 {
     static string filePath = "C:\\Users\\wsupo\\Desktop\\FlowData2023";
@@ -37,7 +38,7 @@ class Program
             {
                 using (StreamWriter sw = new StreamWriter(filePath, false))
                 {
-                    sw.WriteLine("Flow (ml/min)");
+                    sw.WriteLine("Date (mm/dd/yyyy)\tTime(hh:mm)\tFlow (ml/min)");
                     sw.Close();
                 }
             }
@@ -66,15 +67,21 @@ class Program
     private static void RecordDataTimer_Elapsed(object? sender, ElapsedEventArgs e)
     {
         string response = string.Empty;
-        string[] data;
+        string[] flowMeterData;
+        string data = string.Empty;
+        DateTime dateTime;
 
         using (StreamWriter sw = new StreamWriter(filePath, true))
         {
+            dateTime = DateTime.Now;
             response = flowMeter.Poll();
+            flowMeterData = response.Split(" ");
 
-            data = response.Split(" ");
-            sw.WriteLine(data[3]);
-            Console.WriteLine(data[3]);
+            data += dateTime.ToString("MM/dd/yyyy\tHH:mm") + "\t";
+            data += flowMeterData[3];
+            
+            sw.WriteLine(data);
+            Console.WriteLine(data);
             sw.Close();
         }
     }
