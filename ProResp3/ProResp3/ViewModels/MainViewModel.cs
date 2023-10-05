@@ -28,6 +28,7 @@ namespace ProResp3.ViewModels
         public ICommand StopButtonClick { get; set; }
         public ICommand CloseButtonClick { get; set; }
         public ICommand SelectAllValves { get; set; }
+        public ICommand DeselectAllValves { get; set; }
 
 
         public BaseViewModel SelectedViewModel
@@ -83,6 +84,7 @@ namespace ProResp3.ViewModels
             StopButtonClick = new StopExperimentCommand(this);
             CloseButtonClick = new CloseCommand(this);
             SelectAllValves = new SelectAllValvesCommand(this);
+            DeselectAllValves = new DeselectAllValvesCommand(this);
 
             this.SelectedViewModel = new SetupViewModel();
         }

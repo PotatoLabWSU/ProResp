@@ -25,7 +25,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="valveSwitchTimer"
                            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
-                           Text="{Binding Path=TimeUntilllValveSwitch, StringFormat=Valve Switch Countdown: {0}}"
+                           Text="{Binding Path=TimeUntilValveSwitch, StringFormat=Valve Switch Countdown: {0}}"
                            HorizontalAlignment="Center" VerticalAlignment="Center">
                 </TextBlock>
                 <TextBlock x:Name="activeValveTextBlock"

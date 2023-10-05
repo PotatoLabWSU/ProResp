@@ -28,12 +28,13 @@ namespace ProResp3.Models
         DispatcherTimer pollDataTimer;
         DispatcherTimer valveSwitchTimer;
         private string _dataFilePath;
+        DateTime _timeOfLastValveSwitch;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public Valve ActiveValve { get { return _activeValve; } set { _activeValve = value; } }
-        public TimeSpan TimeUntilSwitch { get { return valveSwitchTimer.Interval; } }
+        public DateTime TimeOfLastValveSwitch { get { return _timeOfLastValveSwitch; } }
         public string DataHeader { get; private set; }
 
         public Experiment(List<int> argActiveValveNums, List<double?> argValveWeights, double argValveSwitchTimeMin, string argDataFilePath)
@@ -42,6 +43,7 @@ namespace ProResp3.Models
             _valveWeights = argValveWeights;
             _valveSwitchTimeMin = argValveSwitchTimeMin;
             _dataFilePath = argDataFilePath;
+            _dataPollTimeSec = 3;
 
             _board = new MccBoardConnection();
             _LI7000 = new LI7000Connection();
@@ -182,6 +184,7 @@ namespace ProResp3.Models
         {
             string data = string.Empty;
             DateTime currentDateTime = DateTime.Now;
+            this._timeOfLastValveSwitch = currentDateTime;
             this.PollData(this, new EventArgs());
             TimeSpan dayOfExperiment = currentDateTime.Subtract(this.startDate);
 

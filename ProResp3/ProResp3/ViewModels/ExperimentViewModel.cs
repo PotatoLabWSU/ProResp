@@ -115,13 +115,13 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousFlow));
             }
         }
-        public string? TimeUntilValveSwitch
+        public string? TimeOfLastValveSwitch
         {
             get { return _timeUntillValveSwitch; }
             set
             {
                 _timeUntillValveSwitch = value;
-                OnPropertyChanged(nameof(TimeUntilValveSwitch));
+                OnPropertyChanged(nameof(TimeOfLastValveSwitch));
             }
         }
 
@@ -193,6 +193,7 @@ namespace ProResp3.ViewModels
                 PreviousH2O = CurrentH2O;
                 PreviousTemperature = CurrentTemperature;
                 PreviousFlow = CurrentFlow;
+                //TimeOfLastValveSwitch = 
             }
             if (e.PropertyName == "ActiveValveData")
             {
@@ -201,7 +202,6 @@ namespace ProResp3.ViewModels
                 CurrentH2O = this.experiment?.ActiveValve.H2O.ToString() + " " + this.experiment?.ActiveValve.H2OUnits;
                 CurrentTemperature = this.experiment?.ActiveValve.Temperature.ToString() + " " + this.experiment?.ActiveValve.TemperatureUnits;
                 CurrentFlow = this.experiment?.ActiveValve.Flow.ToString() + " " + this.experiment?.ActiveValve.FlowUnits;
-                TimeUntilValveSwitch = this.experiment?.TimeUntilSwitch.ToString();
             }
         }
     }
