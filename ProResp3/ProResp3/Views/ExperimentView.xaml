@@ -48,7 +48,6 @@
                 <TextBlock x:Name="currentFlowTextBlock"
                                Grid.Column="0" Grid.Row="5"
                            Text="{Binding Path=CurrentFlow, StringFormat=Current Flow: {0}}">
-                        Current Flow:
                 </TextBlock>
                 <TextBlock x:Name="currentWeightTextBlock"
                                Grid.Column="0" Grid.Row="6">

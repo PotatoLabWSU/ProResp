@@ -16,6 +16,8 @@ namespace ProResp3.Models
     public class Experiment : INotifyPropertyChanged
     {
         private LI7000Connection _LI7000;
+        private MccBoardConnection _board;
+        private FlowMeterConnection _flowMeter;
         private Valve _activeValve;
         private DateTime startDate;
         private List<int> _activeValveNums = new List<int>();
@@ -26,7 +28,7 @@ namespace ProResp3.Models
         DispatcherTimer pollDataTimer;
         DispatcherTimer valveSwitchTimer;
         private string _dataFilePath;
-        MccBoardConnection _board;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -42,8 +44,8 @@ namespace ProResp3.Models
             _dataFilePath = argDataFilePath;
 
             _board = new MccBoardConnection();
-
             _LI7000 = new LI7000Connection();
+            _flowMeter = new FlowMeterConnection();
 
             //Activate first valve
             this._board.TurnOffAllPorts();
@@ -70,7 +72,7 @@ namespace ProResp3.Models
                     this._activeValve.TemperatureUnits = LI7000Units[i];
                 }
             }
-
+            this._activeValve.FlowUnits = "ml/min";
 
             //Setup Timers
             this.pollDataTimer = new DispatcherTimer();
@@ -94,13 +96,16 @@ namespace ProResp3.Models
             this.DataHeader = this.DataHeader.Replace("ppm", "(ppm)");
             this.DataHeader = this.DataHeader.Replace("mm/m", "(mm/m)");
             this.DataHeader = this.DataHeader.Replace("T C", "Temperature (°C)");
-            this.DataHeader += "\tFlow ";
+            this.DataHeader += "\tFlow (ml/min)";
         }
 
         void PollData(object sender, EventArgs e)
         {
             string response = _LI7000.Poll();
+            string flowMeterResponse = _flowMeter.Poll();
+            string[] flowData;
 
+            //Parse LI7000 data and store in active valve
             if (response?.Substring(0, 5) == "DATA\t")
             {
                 response = response.Substring(5);
@@ -124,6 +129,9 @@ namespace ProResp3.Models
                     }
                 }
             }
+            //Parse flow data and store in active valve
+            flowData = flowMeterResponse.Split(" ");
+            this.ActiveValve.Flow = double.Parse(flowData[3]);
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ActiveValveData"));
         }
 
@@ -205,6 +213,7 @@ namespace ProResp3.Models
             pollDataTimer.Stop();
             valveSwitchTimer.Stop();
             _board.TurnOffAllPorts();
+            _flowMeter.Close();
             //_LI7000.CloseConnection();  Breaks if poll data event is called after. Seems to close by itself fine.
         }
     }
