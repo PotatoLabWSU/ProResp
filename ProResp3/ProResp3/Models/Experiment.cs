@@ -15,6 +15,11 @@ namespace ProResp3.Models
 
     public class Experiment : INotifyPropertyChanged
     {
+        // Respiration equation constants
+        private const double MOLS_OF_SUBSTANCE = 1;
+        private const double GAS_CONSTANT = 0.082; // (L*atm)/(K*mol)
+        private const double PRESSURE = 0.91; // Based on Pullman, WA (2,352ft)
+
         private LI7000Connection _LI7000;
         private MccBoardConnection _board;
         private FlowMeterConnection _flowMeter;
@@ -99,6 +104,7 @@ namespace ProResp3.Models
             this.DataHeader = this.DataHeader.Replace("mm/m", "(mm/m)");
             this.DataHeader = this.DataHeader.Replace("T C", "Temperature (°C)");
             this.DataHeader += "\tFlow (ml/min)";
+            this.DataHeader += "\tmg CO2/Kg/hr";
         }
 
         void PollData(object sender, EventArgs e)
@@ -191,6 +197,7 @@ namespace ProResp3.Models
             data = (dayOfExperiment.Days + 1).ToString() + "\t";
             data += currentDateTime.ToString("MM/dd/yyyy\tHH:mm") + "\t";
             data += this.ActiveValve.GetDataString();
+            data += "\t" + this.GetRespiration();
 
             using (StreamWriter sw = new StreamWriter(this._dataFilePath, true))
             {
@@ -199,16 +206,27 @@ namespace ProResp3.Models
             }
         }
 
-        private string EquationWithWeight()
+        private string GetRespiration()
         {
             string result = string.Empty;
+            double numResult = 0;
 
             if (this.ActiveValve.Weight == null)
             {
                 return "-";
             }
 
-            return result;
+            
+            double flow = this.ActiveValve.Flow / 1000; // Convert ml/min to L/min
+            double weight = ((double)this.ActiveValve.Weight) / 1000; // Convert g to Kg
+            numResult = ((ActiveValve.CO2 * flow) / weight) * 60; // uL CO2/Kg/hr WHERE DOES uL COME FROM??
+            numResult = numResult / 1000; //mL CO2/Kg/hr
+
+            double VolGas = ((MOLS_OF_SUBSTANCE * GAS_CONSTANT) * ActiveValve.Temperature) / PRESSURE; // SHOULD IT BE TEMP OR 4C??
+
+            numResult = (((numResult / 1000) / VolGas) * 44) * 1000; // mg CO2/Kg/hr
+
+            return numResult.ToString();
         }
 
         public void Stop()
