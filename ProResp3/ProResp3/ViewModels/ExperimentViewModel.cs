@@ -115,13 +115,13 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousFlow));
             }
         }
-        public string? TimeUntilValveSwitch
+        public string? TimeOfLastValveSwitch
         {
             get { return _timeUntillValveSwitch; }
             set
             {
                 _timeUntillValveSwitch = value;
-                OnPropertyChanged(nameof(TimeUntilValveSwitch));
+                OnPropertyChanged(nameof(TimeOfLastValveSwitch));
             }
         }
 
@@ -157,7 +157,7 @@ namespace ProResp3.ViewModels
                 }
             }
 
-            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime))
+            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime) && mainViewModel.DataFilePath != string.Empty)
             {
                 experiment = new Experiment(activeValvesNums, valveWeights, valveSwitchTime, mainViewModel.DataFilePath);
                 experiment.PropertyChanged += this.ExperimentUpdated;
@@ -170,6 +170,10 @@ namespace ProResp3.ViewModels
             else if (!double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTimeInvalid))
             {
                 throw new Exception("Error: Invalid Valve Switch Time.");
+            }
+            else if (mainViewModel.DataFilePath == string.Empty)
+            {
+                throw new Exception("Error: Empty Data File Path");
             }
 
             //Initialize previous valve data
@@ -188,15 +192,16 @@ namespace ProResp3.ViewModels
                 PreviousCO2 = CurrentCO2;
                 PreviousH2O = CurrentH2O;
                 PreviousTemperature = CurrentTemperature;
+                PreviousFlow = CurrentFlow;
+                //TimeOfLastValveSwitch = 
             }
             if (e.PropertyName == "ActiveValveData")
             {
-                ActiveValveNum = (this.experiment?.ActiveValve.ValveNum + 1).ToString();     //Bug: after stop command 
+                ActiveValveNum = (this.experiment?.ActiveValve.ValveNum + 1).ToString();
                 CurrentCO2 = this.experiment?.ActiveValve.CO2.ToString() + " " + this.experiment?.ActiveValve.CO2Units;
                 CurrentH2O = this.experiment?.ActiveValve.H2O.ToString() + " " + this.experiment?.ActiveValve.H2OUnits;
                 CurrentTemperature = this.experiment?.ActiveValve.Temperature.ToString() + " " + this.experiment?.ActiveValve.TemperatureUnits;
                 CurrentFlow = this.experiment?.ActiveValve.Flow.ToString() + " " + this.experiment?.ActiveValve.FlowUnits;
-                TimeUntilValveSwitch = this.experiment?.TimeUntilSwitch.ToString();
             }
         }
     }

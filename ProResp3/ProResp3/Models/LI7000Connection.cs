@@ -19,7 +19,7 @@ namespace ProResp3.Models
         private UsbDevice LI7000;
         private UsbDeviceFinder LI7000Finder;
         private int readTimeLimit = 1000;
-        private int writeTimeLimit = 1000;
+        private int writeTimeLimit = 500;
         internal string DataHeader
         {
             get;
@@ -120,7 +120,7 @@ namespace ProResp3.Models
             ErrorCode errorCode = ErrorCode.None;
             string response = null;
 
-            this.writer.Write(Encoding.Default.GetBytes(")"), 1000, out bytesWritten);
+            this.writer.Write(Encoding.Default.GetBytes(")"), writeTimeLimit, out bytesWritten);
 
             do
             {

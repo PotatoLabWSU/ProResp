@@ -75,6 +75,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="selectValveTextBlock" TextAlignment="Center"
                        Grid.Column="0" Grid.Row="0">
@@ -88,6 +89,10 @@
                     Command="{Binding SelectAllValves}"
                     IsEnabled="{Binding NotExperimentRunning}"
                     Grid.Column="0" Grid.Row="2"/>
+            <Button x:Name="deselectAllValvesButton" Content="Deselect All Valves"
+                    Command="{Binding DeselectAllValves}"
+                    IsEnabled="{Binding NotExperimentRunning}"
+                    Grid.Column="0" Grid.Row="3"/>
         </Grid>
         <Grid Grid.Column="5" Grid.Row="1">
             <Grid.RowDefinitions>
