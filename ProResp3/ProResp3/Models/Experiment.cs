@@ -219,12 +219,12 @@ namespace ProResp3.Models
             
             double flow = this.ActiveValve.Flow / 1000; // Convert ml/min to L/min
             double weight = ((double)this.ActiveValve.Weight) / 1000; // Convert g to Kg
-            numResult = ((ActiveValve.CO2 * flow) / weight) * 60; // uL CO2/Kg/hr WHERE DOES uL COME FROM??
+            numResult = ((ActiveValve.CO2 * flow) / weight) * 60; // uL CO2/Kg/hr 
             numResult = numResult / 1000; //mL CO2/Kg/hr
 
-            double VolGas = ((MOLS_OF_SUBSTANCE * GAS_CONSTANT) * ActiveValve.Temperature) / PRESSURE; // SHOULD IT BE TEMP OR 4C??
+            double VolGas = ((MOLS_OF_SUBSTANCE * GAS_CONSTANT) * 277) / PRESSURE; // Temp is 277K (4C) User enters in C 
 
-            numResult = (((numResult / 1000) / VolGas) * 44) * 1000; // mg CO2/Kg/hr
+            numResult = (((numResult / 1000) / VolGas) * 44) * 1000; // mg CO2/Kg/hr 
 
             return numResult.ToString();
         }
