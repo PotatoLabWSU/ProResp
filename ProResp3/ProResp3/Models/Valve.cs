@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace ProResp3.Models
 {
     using System.ComponentModel;
-    public class Valve : INotifyPropertyChanged
+    public class Valve
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
         private double cO2;
         private double h2O;
         private double temperature;
@@ -22,21 +21,21 @@ namespace ProResp3.Models
         public double CO2
         {
             get { return cO2; }
-            internal set { cO2 = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CO2")); }
+            internal set { cO2 = value; }
         }
         public string CO2Units { get; internal set; }
 
         public double H2O
         {
             get { return h2O; }
-            internal set { h2O = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("H2O")); }
+            internal set { h2O = value; }
         }
         public string H2OUnits { get; internal set; }
 
         public double Temperature
         {
             get { return temperature; }
-            internal set { temperature = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Temperature")); }
+            internal set { temperature = value; }
         }
         public string TemperatureUnits { get; internal set; }
 
