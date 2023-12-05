@@ -193,7 +193,6 @@ namespace ProResp3.ViewModels
                 PreviousH2O = CurrentH2O;
                 PreviousTemperature = CurrentTemperature;
                 PreviousFlow = CurrentFlow;
-                //TimeOfLastValveSwitch = 
             }
             if (e.PropertyName == "ActiveValveData")
             {
