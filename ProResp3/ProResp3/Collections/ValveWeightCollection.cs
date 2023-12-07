@@ -14,10 +14,10 @@ namespace ProResp3.Collections
         string[] _weights;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ValveWeightCollection(int size)
+        public ValveWeightCollection(int argSize)
         {
-            _weights = new string[size];
-            for(int i = 0; i < size; i++)
+            _weights = new string[argSize];
+            for(int i = 0; i < argSize; i++)
             {
                 _weights[i] = string.Empty;
             }
@@ -27,7 +27,7 @@ namespace ProResp3.Collections
         {
             get 
             { 
-                if (index < _weights.Length)
+               if (index < _weights.Length)
                 {
                     return _weights[index];
                 }
@@ -51,5 +51,7 @@ namespace ProResp3.Collections
                 }
             }
         }
+
+        public int Length { get { return _weights.Length; } }
     }
 }

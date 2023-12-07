@@ -169,6 +169,7 @@ namespace ProResp3.Models
                 this._board = new MccBoardConnection();     // Creating a new board each cycle is an attempt to fix it.
             }
 
+            this._activeValve.Weight = this._valveWeights[_activeValveIndex];   //Set new valve weight
             this._board.open(this._activeValveNums[this._activeValveIndex]);
             this.ActiveValve.ValveNum = this._activeValveNums[this._activeValveIndex];
 
