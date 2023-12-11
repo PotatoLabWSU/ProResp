@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ProResp3.Models
 {
+    using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
-    using System.Threading;
-    using System.Windows.Markup;
-    using System.Windows.Shapes;
     using System.Windows.Threading;
 
     public class Experiment : INotifyPropertyChanged
