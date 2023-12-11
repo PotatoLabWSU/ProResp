@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="MccDaq">
+    <Reference Include="MccDaq.dll">
       <HintPath>C:\Program Files (x86)\Measurement Computing\DAQ\MccDaq.dll</HintPath>
     </Reference>
   </ItemGroup>
