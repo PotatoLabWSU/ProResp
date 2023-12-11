@@ -12,10 +12,11 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Name="label"
-                   VerticalAlignment="Center">
+                   VerticalAlignment="Center" Margin="5">
         </TextBlock>
         <TextBox Name="textBox"
-                 Grid.Column="1" VerticalAlignment="Center" PreviewTextInput="textBox_PreviewTextInput">
+                 Grid.Column="1" VerticalAlignment="Center" PreviewTextInput="textBox_PreviewTextInput"
+                 MinWidth="30">
         </TextBox>
     </Grid>
 </UserControl>
