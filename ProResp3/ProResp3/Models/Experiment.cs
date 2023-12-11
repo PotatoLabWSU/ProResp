@@ -9,6 +9,7 @@ namespace ProResp3.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Threading;
     using System.Windows.Markup;
     using System.Windows.Shapes;
     using System.Windows.Threading;
@@ -29,6 +30,7 @@ namespace ProResp3.Models
         private List<double?> _valveWeights = new List<double?>();
         private int _activeValveIndex;
         private double _valveSwitchTimeMin;
+        private double _fridgeTemp; //Kelvin
         private int _dataPollTimeSec;
         DispatcherTimer pollDataTimer;
         DispatcherTimer valveSwitchTimer;
@@ -42,11 +44,12 @@ namespace ProResp3.Models
         public DateTime TimeOfLastValveSwitch { get { return _timeOfLastValveSwitch; } }
         public string DataHeader { get; private set; }
 
-        public Experiment(List<int> argActiveValveNums, List<double?> argValveWeights, double argValveSwitchTimeMin, string argDataFilePath)
+        public Experiment(List<int> argActiveValveNums, List<double?> argValveWeights, double argValveSwitchTimeMin, string argDataFilePath, double argFridgeTemp)
         {
             _activeValveNums = argActiveValveNums;
             _valveWeights = argValveWeights;
             _valveSwitchTimeMin = argValveSwitchTimeMin;
+            _fridgeTemp = argFridgeTemp + 273.15;
             _dataFilePath = argDataFilePath;
             _dataPollTimeSec = 3;
 
@@ -223,7 +226,7 @@ namespace ProResp3.Models
             numResult = ((ActiveValve.CO2 * flow) / weight) * 60; // uL CO2/Kg/hr 
             numResult = numResult / 1000; //mL CO2/Kg/hr
 
-            double VolGas = ((MOLS_OF_SUBSTANCE * GAS_CONSTANT) * 277) / PRESSURE; // Temp is 277K (4C) User enters in C 
+            double VolGas = ((MOLS_OF_SUBSTANCE * GAS_CONSTANT) * this._fridgeTemp) / PRESSURE; // Temp is 277K (4C) User enters in C 
 
             numResult = (((numResult / 1000) / VolGas) * 44) * 1000; // mg CO2/Kg/hr 
 

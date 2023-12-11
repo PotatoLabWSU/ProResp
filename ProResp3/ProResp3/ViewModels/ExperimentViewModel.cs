@@ -182,10 +182,10 @@ namespace ProResp3.ViewModels
                 }
             }
 
-            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime) && mainViewModel.DataFilePath != string.Empty)
+            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime) && double.TryParse(mainViewModel.FridgeTemp, out double fridgeTemp)&& mainViewModel.DataFilePath != string.Empty)
             {
 
-                experiment = new Experiment(activeValvesNums, valveWeights, valveSwitchTime, mainViewModel.DataFilePath);
+                experiment = new Experiment(activeValvesNums, valveWeights, valveSwitchTime, mainViewModel.DataFilePath, fridgeTemp);
                 experiment.PropertyChanged += this.ExperimentUpdated;
                 experiment.Start();
             }
@@ -200,6 +200,10 @@ namespace ProResp3.ViewModels
             else if (mainViewModel.DataFilePath == string.Empty)
             {
                 throw new Exception("Error: Empty Data File Path");
+            }
+            else if(!double.TryParse(mainViewModel.FridgeTemp, out double fridgeTempInvalid))
+            {
+                throw new Exception("Error: Invalid Refrigerator Temp.");
             }
 
             //Initialize previous valve data
@@ -231,7 +235,7 @@ namespace ProResp3.ViewModels
                 CurrentFlow = this.experiment?.ActiveValve.Flow.ToString() + " " + this.experiment?.ActiveValve.FlowUnits;
                 if (this.experiment?.ActiveValve.Weight != null)
                 {
-                    CurrentWeight = this.experiment?.ActiveValve.Weight.ToString() + " g.";
+                    CurrentWeight = this.experiment?.ActiveValve.Weight.ToString() + " g";
                 }
                 else
                 {

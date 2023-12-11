@@ -37,6 +37,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button x:Name="checkAllValvesButton" Content="Check All Valves"
                     Grid.Column="0" Grid.Row="1"
@@ -54,7 +56,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0">
+                <TextBlock Grid.Column="0" Grid.Row="0" Padding="5">
                         Valve Switch Time (min.):
                 </TextBlock>
                 <TextBox Grid.Column="1" Grid.Row="0" Name="valveSwitchTextBox"
@@ -62,10 +64,26 @@
                          Text="{Binding Path=ValveSwitchTime, Mode=TwoWay}"
                          IsEnabled="{Binding NotExperimentRunning}" PreviewTextInput="valveSwitchTextBox_PreviewTextInput"/>
             </Grid>
+            <Grid Grid.Column="0" Grid.Row="7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Padding="5">
+                    Refrigerator Temp. (°C):
+                </TextBlock>
+                <TextBox Grid.Column="1" Grid.Row="0" Name="refrigeratorTemp"
+                             MinWidth="30" MaxHeight="20" MaxLines="1"
+                         Text="{Binding Path=FridgeTemp, Mode=TwoWay}"
+                         IsEnabled="{Binding NotExperimentRunning}" PreviewTextInput="valveSwitchTextBox_PreviewTextInput"/>
+            </Grid>
             <Button x:Name="startButton" Content="Start Experiment"
                     Command="{Binding StartButtonClick}" CommandParameter="Experiment"
                     IsEnabled="{Binding NotExperimentRunning}"
-                    Grid.Column="0" Grid.Row="7"/>
+                    Grid.Column="0" Grid.Row="9"/>
         </Grid>
         <Grid Grid.Column="3" Grid.Row="1">
             <Grid.ColumnDefinitions>
