@@ -50,8 +50,8 @@
                            Text="{Binding Path=CurrentFlow, StringFormat=Current Flow: {0}}">
                 </TextBlock>
                 <TextBlock x:Name="currentWeightTextBlock"
-                               Grid.Column="0" Grid.Row="6">
-                        Sample Weight:
+                               Grid.Column="0" Grid.Row="6"
+                           Text="{Binding Path=CurrentWeight, StringFormat=Sample Weight: {0}}">
                 </TextBlock>
                 <TextBlock x:Name="previousValveTextBlock"
                                Grid.Column="1" Grid.Row="1"
@@ -74,8 +74,8 @@
                            Text="{Binding Path=PreviousFlow, StringFormat=Final Flow: {0}}">
                 </TextBlock>
                 <TextBlock x:Name="previousWeightTextBlock"
-                               Grid.Column="1" Grid.Row="6" >
-                        Previous Weight:
+                               Grid.Column="1" Grid.Row="6" 
+                           Text="{Binding Path=PreviousWeight, StringFormat=Previous Weight: {0}}">
                 </TextBlock>
             </Grid>
 

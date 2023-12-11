@@ -48,6 +48,6 @@ namespace ProResp3.Collections
             }
         }
 
-        
+        public int Length { get { return _checkBoxChecked.Length; } }
     }
 }

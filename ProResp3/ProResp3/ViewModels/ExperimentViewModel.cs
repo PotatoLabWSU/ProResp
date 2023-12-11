@@ -18,11 +18,13 @@ namespace ProResp3.ViewModels
         string _currentH2O;
         string _currentTemperature;
         string _currentFlow;
+        string _currentWeight;
         string _previousValveNum;
         string _previousCO2;
         string _previousH2O;
         string _previousTemperature;
         string _previousFlow;
+        string _previousWeight;
         string _timeUntillValveSwitch;
 
         public string? ActiveValveNum
@@ -70,6 +72,15 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(CurrentFlow));
             }
         }
+        public string? CurrentWeight
+        {
+            get { return _currentWeight; }
+            set
+            {
+                _currentWeight = value;
+                OnPropertyChanged(nameof(CurrentWeight));
+            }
+        }
         public string? PreviousValveNum
         {
             get { return _previousValveNum; }
@@ -115,6 +126,17 @@ namespace ProResp3.ViewModels
                 OnPropertyChanged(nameof(PreviousFlow));
             }
         }
+
+        public string? PreviousWeight
+        {
+            get { return _previousWeight; }
+            set
+            {
+                _previousWeight = value;
+                OnPropertyChanged(nameof(PreviousWeight));
+            }
+        }
+
         public string? TimeOfLastValveSwitch
         {
             get { return _timeUntillValveSwitch; }
@@ -137,7 +159,11 @@ namespace ProResp3.ViewModels
 
             for (int i = 0; i < Globals.NumValves; i++)
             {
-                if (mainViewModel.CheckedValves[i] == true)
+                if (argValveWeights[i] != string.Empty && mainViewModel.CheckedValves[i] == false)
+                {
+                    throw new Exception("Error: Weight entered for Valve " + (i + 1) + ", but Valve" + (i + 1)+ "not selected!");
+                }
+                else if (mainViewModel.CheckedValves[i] == true)
                 {
                     activeValvesNums.Add(i);
 
@@ -147,7 +173,6 @@ namespace ProResp3.ViewModels
                     }
                     else if (double.TryParse(argValveWeights[i], out double valveWeight))
                     {
-                        
                         valveWeights.Add(valveWeight);
                     }
                     else
@@ -157,9 +182,10 @@ namespace ProResp3.ViewModels
                 }
             }
 
-            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime) && mainViewModel.DataFilePath != string.Empty)
+            if (activeValvesNums.Count > 0 && double.TryParse(mainViewModel.ValveSwitchTime, out double valveSwitchTime) && double.TryParse(mainViewModel.FridgeTemp, out double fridgeTemp)&& mainViewModel.DataFilePath != string.Empty)
             {
-                experiment = new Experiment(activeValvesNums, valveWeights, valveSwitchTime, mainViewModel.DataFilePath);
+
+                experiment = new Experiment(activeValvesNums, valveWeights, valveSwitchTime, mainViewModel.DataFilePath, fridgeTemp);
                 experiment.PropertyChanged += this.ExperimentUpdated;
                 experiment.Start();
             }
@@ -175,6 +201,10 @@ namespace ProResp3.ViewModels
             {
                 throw new Exception("Error: Empty Data File Path");
             }
+            else if(!double.TryParse(mainViewModel.FridgeTemp, out double fridgeTempInvalid))
+            {
+                throw new Exception("Error: Invalid Refrigerator Temp.");
+            }
 
             //Initialize previous valve data
             PreviousValveNum = "n/a";
@@ -182,6 +212,7 @@ namespace ProResp3.ViewModels
             PreviousH2O = "n/a";
             PreviousTemperature = "n/a";
             PreviousFlow = "n/a";
+            PreviousWeight = "n/a";
         }
 
         public void ExperimentUpdated(object sender, PropertyChangedEventArgs e)
@@ -193,6 +224,7 @@ namespace ProResp3.ViewModels
                 PreviousH2O = CurrentH2O;
                 PreviousTemperature = CurrentTemperature;
                 PreviousFlow = CurrentFlow;
+                PreviousWeight = CurrentWeight;
             }
             if (e.PropertyName == "ActiveValveData")
             {
@@ -201,6 +233,14 @@ namespace ProResp3.ViewModels
                 CurrentH2O = this.experiment?.ActiveValve.H2O.ToString() + " " + this.experiment?.ActiveValve.H2OUnits;
                 CurrentTemperature = this.experiment?.ActiveValve.Temperature.ToString() + " " + this.experiment?.ActiveValve.TemperatureUnits;
                 CurrentFlow = this.experiment?.ActiveValve.Flow.ToString() + " " + this.experiment?.ActiveValve.FlowUnits;
+                if (this.experiment?.ActiveValve.Weight != null)
+                {
+                    CurrentWeight = this.experiment?.ActiveValve.Weight.ToString() + " g";
+                }
+                else
+                {
+                    CurrentWeight = "";
+                }
             }
         }
     }

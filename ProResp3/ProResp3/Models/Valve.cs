@@ -10,7 +10,7 @@ namespace ProResp3.Models
 
 
         public int ValveNum { get; set; }
-        public double? Weight { get; private set; }
+        public double? Weight { get; set; }
 
         public double CO2
         {
